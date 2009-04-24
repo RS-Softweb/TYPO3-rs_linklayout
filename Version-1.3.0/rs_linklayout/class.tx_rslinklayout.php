@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *  
-*  (c) 2008 Rene Staeker <typo3@rs-softweb.de>
+*  (c) 2008-2009 Rene Staeker <typo3@rs-softweb.de>
 *  All rights reserved
 *
 *  This script is part of the Typo3 project. The Typo3 project is 
