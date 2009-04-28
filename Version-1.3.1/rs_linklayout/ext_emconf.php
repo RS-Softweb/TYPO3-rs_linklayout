@@ -3,7 +3,7 @@
 ########################################################################
 # Extension Manager/Repository config file for ext: "rs_linklayout"
 #
-# Auto generated 24-04-2009 20:01
+# Auto generated 26-04-2009 00:59
 #
 # Manual updates:
 # Only the data in the array - anything else is removed by next write.
