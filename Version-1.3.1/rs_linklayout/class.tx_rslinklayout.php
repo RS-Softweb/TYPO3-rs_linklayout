@@ -1,26 +1,26 @@
 <?php
 /***************************************************************
-*  Copyright notice
-*
-*  (c) 2008-2009 Rene Staeker <typo3@rs-softweb.de>
-*  All rights reserved
-*
-*  This script is part of the Typo3 project. The Typo3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+ *  Copyright notice
+ *
+ *  (c) 2008-2009 Rene Staeker <typo3@rs-softweb.de>
+ *  All rights reserved
+ *
+ *  This script is part of the Typo3 project. The Typo3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
 /**
  * Script 'class.tx_rslinklayout.php'
  *
@@ -36,11 +36,11 @@
  *
  *
  *   49: class tx_rslinklayout
- *   64:     function main($content, $conf)
- *  113:     function prepare_fileicons($extensions)
- *  138:     function extend_link_params($original,$extension,$delimiter)
- *  183:     function replace_link_params($original, $extension)
- *  248:     function recreate_link($params)
+ *   62:     function main($content, $conf)
+ *  110:     function prepare_fileicons($extensions,$filepaths)
+ *  157:     function extend_link_params($original, $extension, $delimiter)
+ *  202:     function replace_link_params($original, $extension)
+ *  268:     function recreate_link($params)
  *
  * TOTAL FUNCTIONS: 5
  * (This index is automatically created/updated by the extension "extdeveval")
@@ -51,8 +51,6 @@ class tx_rslinklayout {
 	var $cObj;
 	// the array with the filetype-image-mapping
 	var $fileicons;
-	// the link target image object
-	var $linkTargetImg;
 
 	/**
 	 * Main function
@@ -84,10 +82,8 @@ class tx_rslinklayout {
 		}
 
 		if ($conf['linkFiletypeEnabled'] == True) {
-			$extensions = $conf['linkFiletypeList'];
-			$this->prepare_fileicons($extensions);
+			$this->prepare_fileicons($conf['linkFiletypeList'],$conf['linkFiletypePaths']);
 
-			$linkFile = '';
 			$url = $content['url'];
 
 			if ($this->fileicons[substr($url, strrpos($url, '.')+1)] <> '') {
@@ -108,21 +104,44 @@ class tx_rslinklayout {
 	 * Prepare the array with the filetype-image-mapping
 	 *
 	 * @param	string		The comma separated list of enabled extension (from TS)
+	 * @param	string		The comma separated list of search paths for the filetype icons (from TS)
 	 * @return	void
 	 */
-	function prepare_fileicons($extensions) {
-		$directory = t3lib_extMgm::siteRelPath('rs_linklayout').'res/';
+	function prepare_fileicons($extensions,$filepaths) {
+		if ($filepaths)	{
+			$pathArr = t3lib_div::trimExplode(',',$filepaths,1);
+			while(list(,$p)=each($pathArr))	{
+				if ($p == 'EXT') {
+					$dirArr[] = t3lib_extMgm::siteRelPath('rs_linklayout').'res/';
+				} else {
+					$dirArr[] = $p;
+				}
+			}
+		} else {
+			$dirArr[] = t3lib_extMgm::siteRelPath('rs_linklayout').'res/';
+		}
 
 		$this->fileicons = array();
-		$handle = opendir($directory);
-		while ($file = readdir ($handle)) {
-			$file = $directory.$file;
-			if (!is_file($file)) {
-				continue;
-			}
+		$extArr = t3lib_div::trimExplode(',',$extensions,1);
 
-			if ((strpos($file, '.gif') > 0) && (!(strpos($extensions, basename($file, '.gif')) === false))) {
-				$this->fileicons[basename($file, '.gif')] = $file;
+		foreach($extArr as $valueExt) {
+			reset($dirArr);
+			$found=False;
+			while(list(,$valueDir)=each($dirArr))	{
+				if (is_file($valueDir.$valueExt.'.gif')){
+					$this->fileicons[$valueExt] = $valueDir.$valueExt.'.gif';
+					$found = True;
+					break;
+				}
+			}
+			if ($found==False) {
+				reset($dirArr);
+				while(list(,$valueDir)=each($dirArr))	{
+					if (is_file($valueDir.'default'.'.gif')){
+						$this->fileicons[$valueExt] = $valueDir.'default'.'.gif';
+						break;
+					}
+				}
 			}
 		}
 	}
@@ -135,7 +154,7 @@ class tx_rslinklayout {
 	 * @param	string		The delimiter
 	 * @return	string		The link as HTML code
 	 */
-	function extend_link_params($original,$extension,$delimiter) {
+	function extend_link_params($original, $extension, $delimiter) {
 		$originals_temp = array();
 		$originals = array();
 		$extensions_temp = array();
@@ -143,24 +162,24 @@ class tx_rslinklayout {
 		$extended_temp = array();
 		$extended = array();
 
-		$original = substr($original,strpos($original,'<a ')+3,-1);
-		$original = trim($original,' "');
+		$original = substr($original, strpos($original, '<a ')+3, -1);
+		$original = trim($original, ' "');
 		$originals_temp = explode('" ', $original);
-		for ($i=0;$i<count($originals_temp);$i++) {
-			$originals[substr($originals_temp[$i],0,strpos($originals_temp[$i],'="'))] = substr($originals_temp[$i],strpos($originals_temp[$i],'="')+2);
+		for ($i = 0; $i < count($originals_temp); $i++) {
+			$originals[substr($originals_temp[$i], 0, strpos($originals_temp[$i], '="'))] = substr($originals_temp[$i], strpos($originals_temp[$i], '="')+2);
 		}
 
 		$extension = trim($extension);
 		$extensions_temp = explode(' ', $extension);
-		for ($i=0;$i<count($extensions_temp);$i++) {
-			$extensions[substr($extensions_temp[$i],0,strpos($extensions_temp[$i],'=')).'_ex'] = substr($extensions_temp[$i],strpos($extensions_temp[$i],'=')+1);
+		for ($i = 0; $i < count($extensions_temp); $i++) {
+			$extensions[substr($extensions_temp[$i], 0, strpos($extensions_temp[$i], '=')).'_ex'] = substr($extensions_temp[$i], strpos($extensions_temp[$i], '=')+1);
 		}
 
-		$extended_temp = array_merge($originals,$extensions);
+		$extended_temp = array_merge($originals, $extensions);
 		ksort($extended_temp);
-		for ($i=0;$i<count($extended_temp);$i++) {
+		for ($i = 0; $i < count($extended_temp); $i++) {
 			$key = key($extended_temp);
-			if ($extended_temp[$key.'_ex']<>'') {
+			if ($extended_temp[$key.'_ex'] <> '') {
 				$extended[$key] = $extended_temp[$key].$delimiter.$extended_temp[$key.'_ex'];
 				next($extended_temp);
 				$i++;
@@ -229,7 +248,8 @@ class tx_rslinklayout {
 				}
 				// key from original list that has no occurrance on extension list
 				// put it to extended array as-is
-				else {
+				else
+				{
 					$extended[$key] = $extended_temp[$key];
 				}
 			}

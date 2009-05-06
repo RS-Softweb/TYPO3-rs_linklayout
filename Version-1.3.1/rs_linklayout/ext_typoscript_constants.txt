@@ -37,13 +37,16 @@ plugin.tx_rslinklayout {
   # cat=plugin.linklayout/typo/ca0; type=boolean; label=Filetype - Link image enabled.
   linkFiletypeEnabled = true
 
-  # cat=plugin.linklayout/typo/ca2; type=string; label=Filetype - Enabled extensions: Enabled extensions for filetype image.
+  # cat=plugin.linklayout/typo/ca1; type=string; label=Filetype - Default paths with the filetype icons:Filetype icons are searched in this paths in the given order. EXT is replaced with the extensions default icon path.
+  linkFiletypePaths = EXT,typo3/gfx/fileicons/
+
+  # cat=plugin.linklayout/typo/cb1; type=string; label=Filetype - Enabled extensions: Enabled extensions for filetype image.
   linkFiletypeList = pdf,doc,zip
 
-  # cat=plugin.linklayout/typo/ca3; type=int; label=Filetype - Max height of image: Max height of the filetype image in px.
+  # cat=plugin.linklayout/typo/cb2; type=int; label=Filetype - Max height of image: Max height of the filetype image in px.
   linkFiletypeHeight = 12
 
-  # cat=plugin.linklayout/typo/ca4; type=wrap; label=Filetype - Wrap:Wrap for the filetype image.
+  # cat=plugin.linklayout/typo/cb3; type=wrap; label=Filetype - Wrap:Wrap for the filetype image.
   linkFiletypeWrap = | &nbsp;
 
 }

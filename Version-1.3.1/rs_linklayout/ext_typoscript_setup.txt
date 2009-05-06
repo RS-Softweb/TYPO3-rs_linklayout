@@ -16,6 +16,7 @@ tt_content.text.20.parseFunc {
     linkTargetMailtoParams = {$plugin.tx_rslinklayout.linkTargetMailtoParams}
 
     linkFiletypeEnabled = {$plugin.tx_rslinklayout.linkFiletypeEnabled}
+    linkFiletypePaths = {$plugin.tx_rslinklayout.linkFiletypePaths}
     linkFiletypeHeight = {$plugin.tx_rslinklayout.linkFiletypeHeight}
     linkFiletypeList = {$plugin.tx_rslinklayout.linkFiletypeList}
     linkFiletypeWrap = {$plugin.tx_rslinklayout.linkFiletypeWrap}
