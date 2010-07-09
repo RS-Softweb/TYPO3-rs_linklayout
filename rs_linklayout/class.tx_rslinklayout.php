@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2008-2009 Rene Staeker <typo3@rs-softweb.de>
+ *  (c) 2008-2010 Rene Staeker <typo3@rs-softweb.de>
  *  All rights reserved
  *
  *  This script is part of the Typo3 project. The Typo3 project is
@@ -86,9 +86,9 @@ class tx_rslinklayout {
 
 			$url = $content['url'];
 
-			if ($this->fileicons[substr($url, strrpos($url, '.')+1)] <> '') {
+			if ($this->fileicons[strtolower(substr($url, strrpos($url, '.')+1))] <> '') {
 				$linkFiletypeArray = $this->conf['ImageCObject.'];
-				$linkFiletypeArray['file'] = $this->fileicons[substr($url, strrpos($url, '.')+1)];
+				$linkFiletypeArray['file'] = $this->fileicons[strtolower(substr($url, strrpos($url, '.')+1))];
 				$linkFiletypeArray['file.']['maxH'] = $conf['linkFiletypeHeight'];
 				$linkFiletypeArray['wrap'] = $conf['linkFiletypeWrap'];
 				$linkFiletypeArray['stdWrap.']['addParams.']['alt'] = strtoupper(substr($url, strrpos($url, '.')+1));
