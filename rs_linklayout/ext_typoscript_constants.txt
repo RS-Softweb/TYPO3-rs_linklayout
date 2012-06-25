@@ -1,0 +1,49 @@
+plugin.tx_rslinklayout {
+
+#  # cat=plugin.linklayout/typo/aa0; type=boolean; label=Link - Extend the A-Tag-Params:If set, the original params are extended, with delimiter '---'.
+#  linkExtendParams = false
+
+  # cat=plugin.linklayout/typo/ba0; type=boolean; label=Target - Link image enabled.
+  linkTargetEnabled = true
+
+  # cat=plugin.linklayout/typo/bb1; type=file; label=Target - External - File:File for the external image.
+  linkTargetExt.file = EXT:rs_linklayout/res/link_ext.gif
+
+  # cat=plugin.linklayout/typo/bb2; type=wrap; label=Target - External - Wrap:Wrap for the external image.
+  linkTargetExt.wrap = | &nbsp;
+
+  # cat=plugin.linklayout/typo/bb3; type=string; label=Target - External - A-Tag-Params:A-Tag params for the external link.
+  linkTargetExtParams = class=linkExt
+
+  # cat=plugin.linklayout/typo/bc1; type=file; label=Target - Internal - File:File for the internal image.
+  linkTargetInt.file = 
+
+  # cat=plugin.linklayout/typo/bc2; type=wrap; label=Target - Internal - Wrap:Wrap for the internal image.
+  linkTargetInt.wrap = 
+
+  # cat=plugin.linklayout/typo/bc3; type=string; label=Target - Internal - A-Tag-Params:A-Tag params for the internal link.
+  linkTargetIntParams = class=linkInt
+
+  # cat=plugin.linklayout/typo/bd1; type=file; label=Target - MailTo - File:File for the Mailto image.
+  linkTargetMailto.file = EXT:rs_linklayout/res/link_mailto.gif
+
+  # cat=plugin.linklayout/typo/bd2; type=wrap; label=Target - MailTo - Wrap:Wrap for the Mailto image.
+  linkTargetMailto.wrap = | &nbsp;
+
+  # cat=plugin.linklayout/typo/bd3; type=string; label=Target - MailTo - A-Tag-Params:A-Tag params for the Mailto link.
+  linkTargetMailtoParams = class=linkMailto
+
+
+  # cat=plugin.linklayout/typo/ca0; type=boolean; label=Filetype - Link image enabled.
+  linkFiletypeEnabled = true
+
+  # cat=plugin.linklayout/typo/ca2; type=string; label=Filetype - Enabled extensions: Enabled extensions for filetype image.
+  linkFiletypeList = pdf,doc,zip
+
+  # cat=plugin.linklayout/typo/ca3; type=int; label=Filetype - Max height of image: Max height of the filetype image in px.
+  linkFiletypeHeight = 12
+
+  # cat=plugin.linklayout/typo/ca4; type=wrap; label=Filetype - Wrap:Wrap for the filetype image.
+  linkFiletypeWrap = | &nbsp;
+
+}
