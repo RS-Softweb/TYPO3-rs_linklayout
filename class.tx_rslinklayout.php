@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2008-2010 Rene Staeker <typo3@rs-softweb.de>
+ *  (c) 2008-2013 Rene Staeker <typo3@rs-softweb.de>
  *  All rights reserved
  *
  *  This script is part of the Typo3 project. The Typo3 project is
@@ -37,10 +37,10 @@
  *
  *   49: class tx_rslinklayout
  *   62:     function main($content, $conf)
- *  110:     function prepare_fileicons($extensions,$filepaths)
- *  157:     function extend_link_params($original, $extension, $delimiter)
- *  202:     function replace_link_params($original, $extension)
- *  268:     function recreate_link($params)
+ *  111:     function prepare_fileicons($extensions,$filepaths)
+ *  158:     function extend_link_params($original, $extension, $delimiter)
+ *  203:     function replace_link_params($original, $extension)
+ *  271:     function recreate_link($params)
  *
  * TOTAL FUNCTIONS: 5
  * (This index is automatically created/updated by the extension "extdeveval")
@@ -86,9 +86,10 @@ class tx_rslinklayout {
 
 			$url = $content['url'];
 
-			if ($this->fileicons[strtolower(substr($url, strrpos($url, '.')+1))] <> '') {
+			$filetype=strtolower(substr($url, strrpos($url, '.')+1));
+			if ($this->fileicons[$filetype] <> '') {
 				$linkFiletypeArray = $this->conf['ImageCObject.'];
-				$linkFiletypeArray['file'] = $this->fileicons[strtolower(substr($url, strrpos($url, '.')+1))];
+				$linkFiletypeArray['file'] = $this->fileicons[$filetype];
 				$linkFiletypeArray['file.']['maxH'] = $conf['linkFiletypeHeight'];
 				$linkFiletypeArray['wrap'] = $conf['linkFiletypeWrap'];
 				$linkFiletypeArray['stdWrap.']['addParams.']['alt'] = strtoupper(substr($url, strrpos($url, '.')+1));
@@ -219,7 +220,9 @@ class tx_rslinklayout {
 		$extension = str_replace('  ', ' ', $extension);
 		$extension = str_replace('  ', ' ', $extension);
 
-		$extensions_temp = explode(' ', $extension);
+		if (strlen($extension)>0) {
+			$extensions_temp = explode(' ', $extension);
+		}
 
 		// clean the array values (remove " or ') (thanks "Daniel K.")
 		for ($i = 0; $i < count($extensions_temp); $i++) {
