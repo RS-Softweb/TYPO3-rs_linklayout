@@ -3,7 +3,7 @@
 /***************************************************************
  * Extension Manager/Repository config file for ext "rs_linklayout".
  *
- * Auto generated 30-07-2014 17:17
+ * Auto generated 30-07-2014 17:32
  *
  * Manual updates:
  * Only the data in the array - everything else is removed by next
@@ -15,7 +15,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'description' => 'Shows an icon with the filetype for all links made in RTE. It also provides the functionality to format internal, external and mailto links in different styles.',
 	'category' => 'fe',
 	'shy' => 0,
-	'version' => '1.3.2',
+	'version' => '1.4.0',
 	'dependencies' => '',
 	'conflicts' => 'dh_linklayout',
 	'priority' => '',
