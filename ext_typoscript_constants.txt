@@ -1,5 +1,4 @@
 plugin.tx_rslinklayout {
-
 #  # cat=plugin.linklayout/typo/aa0; type=boolean; label=Link - Extend the A-Tag-Params:If set, the original params are extended, with delimiter '---'.
 #  linkExtendParams = false
 
@@ -33,7 +32,6 @@ plugin.tx_rslinklayout {
   # cat=plugin.linklayout/typo/bd3; type=string; label=Target - MailTo - A-Tag-Params:A-Tag params for the Mailto link.
   linkTargetMailtoParams = class=linkMailto
 
-
   # cat=plugin.linklayout/typo/ca0; type=boolean; label=Filetype - Link image enabled.
   linkFiletypeEnabled = true
 
@@ -48,5 +46,4 @@ plugin.tx_rslinklayout {
 
   # cat=plugin.linklayout/typo/cb3; type=wrap; label=Filetype - Wrap:Wrap for the filetype image.
   linkFiletypeWrap = | &nbsp;
-
 }
